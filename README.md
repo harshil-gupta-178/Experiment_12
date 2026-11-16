@@ -45,28 +45,28 @@ To design, configure, and deploy a production-grade full-stack **MERN (MongoDB, 
 
 ```
 Experiment_12/
-├── client/                     # Frontend React (Vite) Application
+├── client/                     
 │   ├── src/
-│   │   ├── App.jsx             # Dashboard UI with live API & DB status
-│   │   ├── main.jsx            # React root mount
-│   │   └── index.css           # Styling
+│   │   ├── App.jsx             
+│   │   ├── main.jsx           
+│   │   └── index.css           
 │   ├── index.html
-│   ├── vite.config.js          # Dev proxy configuration
+│   ├── vite.config.js          
 │   └── package.json
-├── server/                     # Backend Express & Node.js Application
+├── server/                     
 │   ├── models/
-│   │   └── Task.js             # Mongoose Data Model schema
-│   ├── server.js               # Express API & static file serving
-│   ├── .env.example            # Sample environment variables
+│   │   └── Task.js             
+│   ├── server.js               
+│   ├── .env.example           
 │   └── package.json
-├── Dockerfile                  # Multi-stage production container build
-├── docker-compose.yml          # Local container orchestration with MongoDB
-├── ecosystem.config.js         # PM2 production process configuration (AWS)
-├── nginx.conf                  # NGINX reverse-proxy configuration (AWS)
-├── Procfile                    # Process definition for Heroku / Render PaaS
-├── package.json                # Root package for unified mono-repo deployment
-└── README.md                   # Complete deployment manual
-```
+├── Dockerfile                  
+├── docker-compose.yml          
+├── ecosystem.config.js       
+├── nginx.conf                  
+├── Procfile                    
+├── package.json               
+└── README.md                   
+``
 
 ---
 
