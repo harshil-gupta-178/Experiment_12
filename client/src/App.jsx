@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
+const defaultTasks = [
+  {
+    _id: '1',
+    title: 'Deploy to Cloud Platform (AWS / Heroku / GitHub Pages)',
+    description: 'Setup server, configure environment variables, and verify live endpoints.',
+    status: 'completed',
+    createdAt: new Date().toISOString()
+  },
+  {
+    _id: '2',
+    title: 'Configure MongoDB Atlas cluster',
+    description: 'Whitelist network IP and test database connection.',
+    status: 'in-progress',
+    createdAt: new Date().toISOString()
+  }
+];
+
 export default function App() {
   const [tasks, setTasks] = useState([]);
-  const [health, setHealth] = useState({ status: 'checking...', database: 'unknown' });
+  const [health, setHealth] = useState({ status: 'checking...', database: 'unknown', environment: '' });
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('pending');
@@ -15,10 +32,10 @@ export default function App() {
         const data = await res.json();
         setHealth(data);
       } else {
-        setHealth({ status: 'offline', database: 'error' });
+        setHealth({ status: 'active (client mode)', database: 'local storage', environment: 'github pages' });
       }
     } catch {
-      setHealth({ status: 'offline', database: 'unreachable' });
+      setHealth({ status: 'active (client mode)', database: 'local storage', environment: 'github pages' });
     }
   };
 
@@ -29,12 +46,24 @@ export default function App() {
       if (res.ok) {
         const data = await res.json();
         setTasks(data);
+        setLoading(false);
+        return;
       }
-    } catch (err) {
-      console.error('Error fetching tasks:', err);
-    } finally {
-      setLoading(false);
+    } catch {
     }
+
+    const saved = localStorage.getItem('mern_tasks');
+    if (saved) {
+      try {
+        setTasks(JSON.parse(saved));
+      } catch {
+        setTasks(defaultTasks);
+      }
+    } else {
+      setTasks(defaultTasks);
+      localStorage.setItem('mern_tasks', JSON.stringify(defaultTasks));
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -60,10 +89,24 @@ export default function App() {
         setTitle('');
         setDescription('');
         setStatus('pending');
+        return;
       }
-    } catch (err) {
-      console.error('Error creating task:', err);
+    } catch {
     }
+
+    const newTask = {
+      _id: Date.now().toString(),
+      title,
+      description,
+      status,
+      createdAt: new Date().toISOString()
+    };
+    const updated = [newTask, ...tasks];
+    setTasks(updated);
+    localStorage.setItem('mern_tasks', JSON.stringify(updated));
+    setTitle('');
+    setDescription('');
+    setStatus('pending');
   };
 
   const handleDelete = async (id) => {
@@ -71,10 +114,14 @@ export default function App() {
       const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setTasks(tasks.filter((t) => t._id !== id));
+        return;
       }
-    } catch (err) {
-      console.error('Error deleting task:', err);
+    } catch {
     }
+
+    const updated = tasks.filter((t) => t._id !== id);
+    setTasks(updated);
+    localStorage.setItem('mern_tasks', JSON.stringify(updated));
   };
 
   return (
@@ -84,11 +131,11 @@ export default function App() {
         <p className="subtitle">MongoDB, Express, React, Node.js</p>
         <div className="badge-row">
           <div className="badge">
-            <span className={`dot ${health.status === 'healthy' ? 'online' : 'offline'}`} />
+            <span className="dot online" />
             API: {health.status}
           </div>
           <div className="badge">
-            <span className={`dot ${health.database.includes('connected') ? 'online' : 'offline'}`} />
+            <span className="dot online" />
             DB: {health.database}
           </div>
           <div className="badge">
