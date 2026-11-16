@@ -20,19 +20,6 @@ export default function App() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('pending');
-  const [serverStatus, setServerStatus] = useState('checking...');
-
-  const loadHealth = async () => {
-    try {
-      const res = await fetch('/api/health');
-      if (res.ok) {
-        const data = await res.json();
-        setServerStatus(`API: ${data.status} | DB: ${data.database}`);
-        return;
-      }
-    } catch {}
-    setServerStatus('API: Active (Static Host) | DB: Local Storage');
-  };
 
   const loadTasks = async () => {
     try {
@@ -54,7 +41,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    loadHealth();
     loadTasks();
   }, []);
 
@@ -108,8 +94,6 @@ export default function App() {
     <div className="container">
       <h1>MERN Application</h1>
       <p className="subtitle">MongoDB, Express, React, Node.js</p>
-
-      <div className="status-bar">{serverStatus}</div>
 
       <form onSubmit={handleAdd}>
         <h3>Add Task</h3>
