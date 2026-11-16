@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 const initialTasks = [
   {
     _id: '1',
-    title: 'Deploy to Cloud Platform',
-    description: 'Setup server and verify live endpoints.',
+    title: 'Complete project report',
+    description: 'Prepare documentation and verify requirements.',
     status: 'completed'
   },
   {
     _id: '2',
-    title: 'Connect Database',
-    description: 'Configure MongoDB Atlas connection.',
+    title: 'Review implementation',
+    description: 'Check functionality and test cases.',
     status: 'in-progress'
   }
 ];
@@ -92,8 +92,7 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>MERN Application</h1>
-      <p className="subtitle">MongoDB, Express, React, Node.js</p>
+      <h1>Task Manager</h1>
 
       <form onSubmit={handleAdd}>
         <h3>Add Task</h3>
