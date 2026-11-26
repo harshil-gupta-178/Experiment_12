@@ -14,7 +14,6 @@ Experiment_12/
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
-│   ├── index.html
 │   ├── vite.config.js
 │   └── package.json
 ├── server/                 # Node.js & Express backend
