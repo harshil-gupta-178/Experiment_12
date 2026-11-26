@@ -22,7 +22,6 @@ Experiment_12/
 │   ├── server.js
 │   ├── .env.example
 │   └── package.json
-├── assets/                 # Production frontend assets (GitHub Pages)
 ├── index.html              # Production entry point (GitHub Pages)
 ├── Procfile                # Heroku / Render start command
 ├── package.json            # Root build and start scripts
